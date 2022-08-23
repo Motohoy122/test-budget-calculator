@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as XLSX from 'xlsx';
+import BudgetPdf from './BudgetPdf'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -38,7 +39,7 @@ const mobileValue = { width: '50%', mr: 4, fontSize: '1.6em', w: '100%', }
 
 const BudgetList = () => {
   const [excelData, setExcelData] = useState([])
-//   const [showPdf, setShowPdf] = useState(false)
+  const [showPdf, setShowPdf] = useState(false)
   const [counter, setCounter] = useState(0)
   useEffect(() => {}, [])
 
@@ -155,9 +156,9 @@ const BudgetList = () => {
   const handleCount = () => {
     setCounter(counter => counter + 1)
   }
-//   const handlePdfViewer = () => {
-//     setShowPdf(!showPdf)
-//   }
+  const handlePdfViewer = () => {
+    setShowPdf(!showPdf)
+  }
 
     return (
         <div>
@@ -277,11 +278,11 @@ const BudgetList = () => {
                             {matches ? '' : <Typography variant="h6" sx={mobileLabel}>Days of Work: </Typography>}
                             <Typography key="daysOfWork" sx={matches ? '' : mobileValue}>{row.isErrorCrewSize ? 'Error' : Math.round((row.todaysQuantity / row.laborSpeed) / row.laborHoursInDay / row.crewSize * 100) / 100}</Typography>
                         </Box>
-                        <Button variant="contained" >Measure</Button>
+                        <Button variant="contained" onClick={handlePdfViewer}>Measure</Button>
                     </Item>)
                 })}
                     </Stack>
-                
+              {showPdf ? <BudgetPdf /> : ''}
             </Box> : <div></div> }
         </div>
     )
